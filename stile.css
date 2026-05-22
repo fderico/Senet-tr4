@@ -1,0 +1,505 @@
+html {
+  overflow: hidden;
+}
+
+/* ===== VARIABILI TEMA EGIZIO ===== */
+:root {
+  --sabbia:       #e8d5a3;
+  --sabbia-chiara:#f5ead0;
+  --papiro:       #f0e2b6;
+  --oro:          #c9a84c;
+  --oro-brillante:#f0c040;
+  --oro-scuro:    #8a6a1a;
+  --terracotta:   #b5541c;
+  --inchiostro:   #1a1208;
+  --sfondo-scuro: #1a1208;
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  background-color: var(--sfondo-scuro);
+  background-image:
+    repeating-linear-gradient(0deg,  transparent, transparent 48px, rgba(201,168,76,0.04) 48px, rgba(201,168,76,0.04) 50px),
+    repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(201,168,76,0.04) 48px, rgba(201,168,76,0.04) 50px),
+    radial-gradient(ellipse at 50% 0%, #2e1f08 0%, #0e0a04 70%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'IM Fell English', serif;
+  color: var(--sabbia);
+  padding: 32px 16px 48px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  overscroll-behavior: none;
+}
+
+/* ===== HEADER ===== */
+.intestazione {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.intestazione h1 {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--oro-brillante);
+  letter-spacing: 4px;
+  padding: 8px 0 4px;
+}
+
+.intestazione .sottotitolo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 6px;
+  color: var(--oro-scuro);
+  text-transform: uppercase;
+}
+
+.separatore {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--oro-scuro), transparent);
+  width: 260px;
+  margin: 10px auto;
+  opacity: 0.6;
+}
+
+/* ===== MENU ===== */
+#menu {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: dissolvenza 0.6s ease;
+}
+
+@keyframes dissolvenza {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+#menu h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 5px;
+  color: var(--oro-scuro);
+  text-transform: uppercase;
+}
+
+.bottoni-menu {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ===== SOTTOMENU ===== */
+#sottomenu {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+#sottomenu h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  color: var(--oro-scuro);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+/* ===== BOTTONI ===== */
+button {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  padding: 9px 20px;
+  margin: 3px;
+  cursor: pointer;
+  border: 1px solid var(--oro-scuro);
+  border-radius: 3px;
+  background: #2a1c0a;
+  color: var(--oro);
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--oro-scuro);
+  color: var(--inchiostro);
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ===== DADO ===== */
+.dado {
+  font-size: 1.9em;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 6px;
+  background: #2a1c0a;
+  border: 1px solid var(--oro-scuro);
+  color: var(--oro-brillante);
+}
+
+.dado.shake {
+  animation: shake 0.45s ease;
+}
+
+@keyframes shake {
+  0%   { transform: rotate(0deg) scale(1); }
+  20%  { transform: rotate(-15deg) scale(1.1); }
+  40%  { transform: rotate(15deg) scale(1.1); }
+  60%  { transform: rotate(-8deg) scale(1.05); }
+  80%  { transform: rotate(5deg) scale(1.02); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* ===== WRAPPER GIOCO ===== */
+#wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+/* ===== BARRA CONTROLLI ===== */
+.barra-controlli {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.barraG1 { writing-mode: vertical-rl; }
+.barraG2 { writing-mode: vertical-rl; transform: rotate(180deg); }
+
+/* ===== BOARD ===== */
+#board {
+  display: flex;
+  position: relative;
+  border: 1px solid var(--oro-scuro);
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  background: var(--papiro);
+  padding: 4px;
+  gap: 2px;
+}
+
+#board > div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+}
+
+#board > div > div {
+  background: var(--sabbia) !important;
+  border: 1px solid rgba(138,106,26,0.5) !important;
+  border-radius: 2px;
+  transition: filter 0.15s, transform 0.15s;
+}
+
+#board > div > div:hover {
+  filter: brightness(1.06);
+}
+
+/* Caselle speciali */
+#board > div > div[style*='lightblue'] {
+  background: #d4a83a !important;
+  border-color: var(--oro-scuro) !important;
+}
+
+/* Caselle evidenziate */
+#board > div > div[style*='yellow'] {
+  background: #ffe87a !important;
+  border-color: var(--oro-brillante) !important;
+  transform: scale(1.03);
+  z-index: 2;
+}
+
+/* Pedina selezionata */
+#board > div > div[style*='3px solid orange'] {
+  border: 2px solid var(--terracotta) !important;
+  transform: scale(1.05);
+  z-index: 3;
+}
+
+/* ===== BOTTONE LOG ===== */
+#btn-apri-log {
+  position: fixed;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 26px;
+  text-align: center;
+  letter-spacing: 0;
+  border: 1px solid var(--oro-scuro);
+  border-radius: 3px;
+  background: rgba(42, 28, 10, 0.85);
+  color: var(--oro);
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.15s, transform 0.1s;
+}
+
+#btn-apri-log:hover {
+  background: var(--oro-scuro);
+  transform: scale(1.08);
+}
+
+#btn-apri-log:active { transform: scale(1); }
+
+/* ===== LOG OVERLAY ===== */
+#log-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 7, 2, 0.75);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+#log-overlay.aperto {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+#log-panel-inner {
+  width: min(420px, 92vw);
+  max-height: 80vh;
+  border: 1px solid var(--oro-scuro);
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #0e0a04;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,168,76,0.15);
+  animation: slideUp 0.22s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+#log-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 10px 14px !important;
+  background: #1a1208 !important;
+  border-bottom: 1px solid var(--oro-scuro) !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: var(--oro) !important;
+}
+
+#btn-copia-log {
+  font-size: 0.68rem !important;
+  padding: 4px 10px !important;
+  background: #2a1c0a !important;
+  color: var(--oro) !important;
+  border: 1px solid var(--oro-scuro) !important;
+  border-radius: 2px !important;
+  letter-spacing: 1px !important;
+}
+
+#btn-chiudi-log {
+  font-size: 0.8rem !important;
+  padding: 3px 8px !important;
+  background: transparent !important;
+  color: var(--oro-scuro) !important;
+  border: 1px solid var(--oro-scuro) !important;
+  border-radius: 2px !important;
+  letter-spacing: 0 !important;
+  line-height: 1 !important;
+}
+
+#btn-chiudi-log:hover {
+  background: #3a1a08 !important;
+  color: var(--oro) !important;
+}
+
+#log-list {
+  padding: 10px 14px !important;
+  overflow-y: auto !important;
+  flex: 1 !important;
+  background: #0e0a04 !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #8a6a1a #0e0a04 !important;
+}
+
+.log-entry   { padding: 4px 0 !important; border-bottom: 1px solid rgba(201,168,76,0.08) !important; line-height: 1.6 !important; font-size: 13px !important; color: #b8a878 !important; }
+.log-dado    { color: #6a5a38 !important; }
+.log-mossa   { color: var(--oro) !important; }
+.log-cattura { color: #c0392b !important; }
+.log-speciale{ color: var(--oro-brillante) !important; }
+.log-uscita  { color: #5cb85c !important; }
+.log-turno   { color: #6a8fa8 !important; font-style: italic !important; }
+.log-vittoria{ color: var(--oro-brillante) !important; font-weight: bold !important; }
+.log-nessuna { color: #3a3020 !important; font-style: italic !important; }
+
+/* ===== MENU ONLINE ===== */
+#menu-online {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: dissolvenza 0.4s ease;
+}
+
+#menu-online h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  color: var(--oro-scuro);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.separatore-online {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--oro-scuro);
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin: 2px 0;
+}
+
+.join-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+#input-codice {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  width: 110px;
+  padding: 7px 10px;
+  background: #1a1208;
+  border: 1px solid var(--oro-scuro);
+  border-radius: 3px;
+  color: var(--oro-brillante);
+  text-align: center;
+  outline: none;
+}
+
+#input-codice:focus {
+  border-color: var(--oro);
+  box-shadow: 0 0 0 2px rgba(201,168,76,0.15);
+}
+
+#input-codice::placeholder {
+  color: #4a3810;
+  letter-spacing: 2px;
+  font-size: 0.65rem;
+}
+
+/* ===== CODICE SALA IN ATTESA ===== */
+.codice-sala {
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 2.4rem;
+  letter-spacing: 12px;
+  color: var(--oro-brillante);
+  background: #0e0a04;
+  border: 1px solid var(--oro-scuro);
+  border-radius: 4px;
+  padding: 14px 24px;
+  margin: 6px 0;
+  text-shadow: 0 0 20px rgba(240,192,64,0.4);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 10px rgba(240,192,64,0.3); }
+  50%       { text-shadow: 0 0 28px rgba(240,192,64,0.7); }
+}
+
+.codice-label {
+  font-size: 0.62rem;
+  letter-spacing: 3px;
+  color: var(--oro-scuro);
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* ===== STATO ONLINE ===== */
+.stato-online {
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+  border-radius: 3px;
+  text-align: center;
+  min-height: 28px;
+}
+
+.stato-online.attesa {
+  color: var(--oro);
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+}
+
+.stato-online.errore {
+  color: #e74c3c;
+  background: rgba(231,76,60,0.08);
+  border: 1px solid rgba(231,76,60,0.25);
+}
+
+.stato-online.ok {
+  color: #5cb85c;
+  background: rgba(92,184,92,0.08);
+  border: 1px solid rgba(92,184,92,0.2);
+}
+
+/* ===== BADGE GIOCATORE ===== */
+#badge-giocatore {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 3px;
+  margin-bottom: 6px;
+  border: 1px solid;
+}
+
+.badge-g1 {
+  color: #e87070;
+  border-color: rgba(232,112,112,0.3);
+  background: rgba(232,112,112,0.07);
+}
+
+.badge-g2 {
+  color: #70a8e8;
+  border-color: rgba(112,168,232,0.3);
+  background: rgba(112,168,232,0.07);
+}
