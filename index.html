@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ȿⲉⲛⲉⲧ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=IM+Fell+English&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stile.css">
+</head>
+
+<body>
+
+<!-- Struttura pagina -->
+<div class="intestazione">
+  <h1>Ȿⲉⲛⲉⲧ</h1>
+</div>
+
+<div class="geroglifici">𓂀 𓆣 𓇯 𓂋 𓆣 𓂀</div>
+
+<div id="menu">
+  <h2>Seleziona la tua via</h2>
+  <div class="menu-cards">
+    <div class="menu-card" id="card-cpu" onclick="scegliVsComputer(event)" style="background-image: url('vs-bot.png');">
+      <div class="menu-card-overlay"></div>
+      <div class="menu-card-testo">
+        <span class="menu-card-label">Giocatore VS Computer</span>
+      </div>
+      <div class="menu-card-opzioni" id="opzioni-cpu">
+        <button class="menu-card-btn-opzione" onclick="event.stopPropagation(); avviaGioco('facile')">Facile</button>
+        <button class="menu-card-btn-opzione" onclick="event.stopPropagation(); avviaGioco('medio')">Medio</button>
+        <button class="menu-card-btn-opzione" onclick="event.stopPropagation(); avviaGioco('difficile')">Difficile</button>
+      </div>
+    </div>
+    <div class="menu-card" id="card-umano" onclick="scegliVsUmano(event)" style="background-image: url('vs-hum.png');">
+      <div class="menu-card-overlay"></div>
+      <div class="menu-card-testo">
+        <span class="menu-card-label">Giocatore VS Giocatore</span>
+      </div>
+      <div class="menu-card-opzioni" id="opzioni-umano">
+        <button class="menu-card-btn-opzione" onclick="event.stopPropagation(); avviaGioco('offline')">Offline</button>
+        <button class="menu-card-btn-opzione" onclick="event.stopPropagation(); apriMenuOnlineInSottomenu()">Online</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="sottomenu"></div>
+
+<div id="wrapper">
+  <!-- Board con dadi overlay -->
+  <div id="board-container">
+    <div id="board"></div>
+    <!-- Dado G1: in alto a sinistra sulla board -->
+    <div id="dado-g1-overlay" class="dado-overlay" style="display: none;">
+      <div id="dado1" class="dado dado-overlay-inner">◈</div>
+    </div>
+    <!-- Dado G2: in basso a destra sulla board -->
+    <div id="dado-g2-overlay" class="dado-overlay" style="display: none;">
+      <div id="dado2" class="dado dado-overlay-inner">◈</div>
+    </div>
+  </div>
+</div>
+
+<!-- Barra tasti casa/riavvia -->
+<div id="barra-partita">
+  <button id="btn-casa" title="Menu principale" onclick="tornaAlMenu()">🏠</button>
+  <button id="btn-riavvia" title="Riavvia partita" onclick="riavviaPartita()">🔄</button>
+</div>
+
+<!-- Overlay vittoria -->
+<div id="vittoria-overlay">
+  <div id="vittoria-panel">
+    <div id="vittoria-header">
+      <div id="vittoria-titolo">🏆 Vittoria!</div>
+      <div id="vittoria-sottotitolo" style="margin-top:6px;"></div>
+    </div>
+    <div id="vittoria-body">
+      <div id="vittoria-messaggio-attesa"></div>
+      <div class="vittoria-btn-row">
+        <button id="btn-rivincita" onclick="cliccaRivincita()">⚔️ Rivincita</button>
+        <button id="btn-vittoria-menu" onclick="tornaAlMenu()">🏠 Menu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay conferma azione (casa / riavvia) -->
+<div id="conferma-overlay">
+  <div id="conferma-panel">
+    <div id="conferma-header">
+      <div id="conferma-titolo"></div>
+    </div>
+    <div id="conferma-body">
+      <div id="conferma-testo"></div>
+      <div class="vittoria-btn-row">
+        <button id="btn-conferma-si" onclick="confermaSi()">✔ Sì</button>
+        <button id="btn-conferma-no" onclick="confermaNo()">✕ Annulla</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay scelta colore (modalità CPU) -->
+<div id="scelta-colore-overlay">
+  <div id="scelta-colore-panel">
+    <div id="scelta-colore-header">
+      <div id="scelta-colore-titolo">Scegli la tua pedina</div>
+    </div>
+    <div id="scelta-colore-body">
+      <div class="scelta-colore-btn-row">
+        <button id="btn-scegli-rosso"  onclick="scegliColore(1)">🔴</button>
+        <button id="btn-scegli-casuale" onclick="scegliColore(0)">⚄</button>
+        <button id="btn-scegli-blu"   onclick="scegliColore(2)">🔵</button>
+      </div>
+      <div class="scelta-colore-labels">
+        <span>Rosso</span>
+        <span>Casuale</span>
+        <span>Blu</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK (modular, versione CDN compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
